@@ -3,9 +3,15 @@ const jwt = require('jsonwebtoken')
 const { APP_SECRET, getUserId } = require('../utils')
 
 function post(parent, args, context) {
+  const userId = getUserId(context)
   return context.prisma.createLink({
     url: args.url,
     description: args.description,
+    postedBy: {
+      connect: {
+        id: userId
+      }
+    }
   })
 }
 
@@ -17,7 +23,7 @@ async function signup(parent, args, context) {
 
   return {
     token,
-    user,
+    user
   }
 }
 
@@ -34,7 +40,7 @@ async function login(parent, args, context) {
 
   return {
     token: jwt.sign({ userId: user.id }, APP_SECRET),
-    user,
+    user
   }
 }
 
@@ -42,7 +48,7 @@ async function vote(parent, args, context) {
   const userId = getUserId(context)
   const linkExists = await context.prisma.$exists.vote({
     user: { id: userId },
-    link: { id: args.linkId },
+    link: { id: args.linkId }
   })
   if (linkExists) {
     throw new Error(`Already voted for link: ${args.linkId}`)
@@ -50,7 +56,7 @@ async function vote(parent, args, context) {
 
   return context.prisma.createVote({
     user: { connect: { id: userId } },
-    link: { connect: { id: args.linkId } },
+    link: { connect: { id: args.linkId } }
   })
 }
 
@@ -58,5 +64,5 @@ module.exports = {
   post,
   signup,
   login,
-  vote,
+  vote
 }

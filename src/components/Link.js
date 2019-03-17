@@ -1,10 +1,10 @@
 import React from 'react'
 
-function Link(props) {
+function Link({ link }) {
   return (
     <div>
       <div>
-        {props.link.description} ({props.link.url})
+        {link.description} ({link.url})
       </div>
     </div>
   )
