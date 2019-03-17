@@ -12,8 +12,8 @@ function Header({ history }) {
         <Link to="/" className="fw7 mr1 no-underline black">
           Hacker News
         </Link>
-        <Link to="/" className="ml1 no-underline black">
-          new
+        <Link to="/top" className="ml1 no-underline black">
+          top
         </Link>
         <div className="ml1">|</div>
         <Link to="/search" className="ml1 no-underline black">
